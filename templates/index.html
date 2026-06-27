@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestaurantIQ | AI Restaurant Intelligence</title>
+    <meta name="description" content="RestaurantIQ scores review sentiment with machine learning, helps you search restaurants, get cuisine-based recommendations, and explore a live analytics dashboard.">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts: Outfit (display), Inter (body), JetBrains Mono (data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+
+
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="#home">
+            <span class="brand-mark"><i class="fa-solid fa-utensils"></i></span>
+            Restaurant<span class="brand-accent">IQ</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sentiment">Sentiment</a></li>
+                <li class="nav-item"><a class="nav-link" href="#search">Search</a></li>
+                <li class="nav-item"><a class="nav-link" href="#recommend">Recommend</a></li>
+                <li class="nav-item"><a class="nav-link" href="#analytics">Analytics</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-cta" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<section id="home" class="hero">
+
+    <div class="hero-blob hero-blob-a" aria-hidden="true"></div>
+    <div class="hero-blob hero-blob-b" aria-hidden="true"></div>
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7 reveal">
+
+                <span class="eyebrow"><i class="fa-solid fa-bolt"></i> AI Restaurant Intelligence</span>
+
+                <h1 class="hero-title">
+                    Find great food.<br>
+                    <span class="text-accent">Trust the rating.</span>
+                </h1>
+
+                <p class="lead hero-lead">
+                    RestaurantIQ reads every review with machine learning, scores it positive or negative,
+                    and helps you search, compare, and discover restaurants you'll actually love.
+                </p>
+
+                <!-- Signature element: Zomato-style hero search bar, wired to the real search tool below -->
+                <form class="hero-search" id="heroSearchForm" role="search">
+                    <i class="fa-solid fa-magnifying-glass hero-search-icon"></i>
+                    <input
+                        type="text"
+                        id="heroSearchInput"
+                        placeholder="Search for a restaurant, e.g. Paradise Biryani"
+                        aria-label="Search for a restaurant">
+                    <button type="submit" class="btn btn-primary">Find</button>
+                </form>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-mono>1.6k+</span>
+                        <span class="hero-stat-label">Restaurants indexed</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-mono>50k+</span>
+                        <span class="hero-stat-label">Reviews scored</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num" data-mono>~94%</span>
+                        <span class="hero-stat-label">Model confidence</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-5 reveal" data-reveal-delay="1">
+
+                <!-- Live AI scan panel -->
+                <div class="scan-panel">
+                    <div class="scan-panel-head">
+                        <span class="scan-dot"></span>
+                        <span data-mono>live_sentiment_scan.ai</span>
+                    </div>
+                    <div class="scan-panel-body">
+                        <p class="scan-text" id="scanText">&nbsp;</p>
+                        <span class="scan-line" id="scanLine"></span>
+                    </div>
+                    <div class="scan-panel-foot">
+                        <span class="verdict-pill" id="verdictPill">waiting for input…</span>
+                        <span class="scan-confidence" data-mono id="scanConfidence">--%</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section class="features">
+
+    <div class="container">
+
+        <div class="text-center mb-5 reveal">
+            <span class="eyebrow eyebrow-center"><i class="fa-solid fa-layer-group"></i> Capabilities</span>
+            <h2>Everything you need, in one platform</h2>
+            <p class="section-sub">From a single review to the full picture — four tools, one model.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-3 reveal">
+                <a href="#sentiment" class="feature-card">
+                    <i class="fa-solid fa-face-smile"></i>
+                    <h4>Sentiment Analysis</h4>
+                    <p>Paste any review and get an instant positive or negative verdict with a confidence score.</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="1">
+                <a href="#search" class="feature-card">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h4>Restaurant Search</h4>
+                    <p>Look up a restaurant by name and pull its cuisine, cost, timings, and rating in one card.</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="2">
+                <a href="#recommend" class="feature-card">
+                    <i class="fa-solid fa-star"></i>
+                    <h4>Recommendations</h4>
+                    <p>Pick a cuisine and get a ranked shortlist of restaurants worth trying.</p>
+                </a>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="3">
+                <a href="#analytics" class="feature-card">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h4>Analytics</h4>
+                    <p>See review volume, average ratings, and the top-performing restaurants at a glance.</p>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="about" class="section-space section-alt">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-5 reveal">
+                <span class="eyebrow"><i class="fa-solid fa-circle-info"></i> About the project</span>
+                <h2>One model, four ways to use it</h2>
+                <p class="section-sub">
+                    RestaurantIQ is trained on Zomato-style restaurant &amp; review data — cuisine, cost, timings,
+                    ratings, and free-text reviews. The same sentiment model that powers the analyzer below also
+                    feeds the search, recommendation, and analytics views.
+                </p>
+
+                <div class="stack-chips">
+                    <span class="chip"><i class="fa-brands fa-python"></i> Python</span>
+                    <span class="chip"><i class="fa-solid fa-flask"></i> Flask</span>
+                    <span class="chip"><i class="fa-solid fa-robot"></i> NLP / scikit-learn</span>
+                    <span class="chip"><i class="fa-brands fa-bootstrap"></i> Bootstrap</span>
+                    <span class="chip"><i class="fa-solid fa-chart-pie"></i> Chart.js</span>
+                </div>
+            </div>
+
+            <div class="col-lg-7 reveal" data-reveal-delay="1">
+                <div class="how-it-works">
+
+                    <div class="how-step">
+                        <span class="how-num" data-mono>01</span>
+                        <div>
+                            <h5>Paste a review</h5>
+                            <p>Drop in real customer feedback, in plain language, no formatting required.</p>
+                        </div>
+                    </div>
+
+                    <div class="how-step">
+                        <span class="how-num" data-mono>02</span>
+                        <div>
+                            <h5>The model scores it</h5>
+                            <p>The text is vectorized and classified by the trained sentiment model in milliseconds.</p>
+                        </div>
+                    </div>
+
+                    <div class="how-step">
+                        <span class="how-num" data-mono>03</span>
+                        <div>
+                            <h5>Get an instant verdict</h5>
+                            <p>You see a clear positive / negative label alongside the model's confidence percentage.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="sentiment" class="section-space">
+
+    <div class="container">
+
+        <div class="text-center mb-5 reveal">
+            <span class="eyebrow eyebrow-center"><i class="fa-solid fa-face-smile"></i> Sentiment Analysis</span>
+            <h2>What is this review really saying?</h2>
+            <p class="section-sub">Type or paste a review below — the model reads it and returns a verdict.</p>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8 reveal">
+
+                <div class="card-ai card-ai-scan">
+
+                    <h3 class="card-title-ai">Analyze a restaurant review</h3>
+
+                    <textarea
+                        id="reviewInput"
+                        rows="6"
+                        placeholder="e.g. The biryani was outstanding, rich aroma and perfectly cooked rice..."></textarea>
+
+                    <button class="btn btn-primary w-100" onclick="analyzeReview()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Review
+                    </button>
+
+                    <div class="result-box mt-4" id="resultBox">
+
+                        <div class="result-row">
+                            <div>
+                                <h5>Prediction</h5>
+                                <h2 id="prediction">--</h2>
+                            </div>
+                            <div class="result-divider" aria-hidden="true"></div>
+                            <div>
+                                <h5>Confidence</h5>
+                                <h3 id="confidence" data-mono>--</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="search" class="section-space section-alt">
+
+    <div class="container">
+
+        <div class="text-center mb-5 reveal">
+            <span class="eyebrow eyebrow-center"><i class="fa-solid fa-magnifying-glass"></i> Restaurant Search</span>
+            <h2>Find a restaurant by name</h2>
+            <p class="section-sub">Pull cuisine, cost, timings, and rating in a single card.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-5 reveal">
+                <div class="card-ai">
+                    <h3 class="card-title-ai">Search Restaurant</h3>
+
+                    <input type="text" id="restaurantInput" placeholder="Enter restaurant name">
+
+                    <button class="btn btn-primary w-100" onclick="searchRestaurant()">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-7 reveal" data-reveal-delay="1">
+                <div id="searchResult" class="search-result-slot">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-store"></i>
+                        <p>Search results will appear here.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="recommend" class="section-space">
+
+    <div class="container">
+
+        <div class="text-center mb-5 reveal">
+            <span class="eyebrow eyebrow-center"><i class="fa-solid fa-star"></i> Recommendation</span>
+            <h2>Pick a cuisine, get a shortlist</h2>
+            <p class="section-sub">Tap a cuisine below, or choose one from the dropdown.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4 reveal">
+                <div class="card-ai">
+                    <h3 class="card-title-ai">Recommend by Cuisine</h3>
+
+                    <div class="cuisine-chips" id="cuisineChips">
+                        <button type="button" class="cuisine-chip" data-cuisine="North Indian">🍛 North Indian</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Chinese">🥡 Chinese</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="South Indian">🥘 South Indian</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Biryani">🍗 Biryani</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Fast Food">🍔 Fast Food</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Cafe">☕ Cafe</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Desserts">🍰 Desserts</button>
+                        <button type="button" class="cuisine-chip" data-cuisine="Italian">🍝 Italian</button>
+                    </div>
+
+                    <select id="cuisineInput">
+                        <option value="">Select Cuisine</option>
+                        <option>North Indian</option>
+                        <option>Chinese</option>
+                        <option>South Indian</option>
+                        <option>Biryani</option>
+                        <option>Fast Food</option>
+                        <option>Cafe</option>
+                        <option>Desserts</option>
+                        <option>Italian</option>
+                    </select>
+
+                    <button class="btn btn-primary w-100" onclick="recommendRestaurant()">
+                        <i class="fa-solid fa-star"></i> Recommend
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-8 reveal" data-reveal-delay="1">
+                <div id="recommendationResult" class="recommend-grid">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-utensils"></i>
+                        <p>Choose a cuisine to see recommendations.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="analytics" class="section-space section-alt">
+
+    <div class="container">
+
+        <div class="text-center mb-5 reveal">
+            <span class="eyebrow eyebrow-center"><i class="fa-solid fa-chart-line"></i> Analytics Dashboard</span>
+            <h2>The full picture, at a glance</h2>
+            <p class="section-sub">Live totals pulled straight from the dataset behind every tool above.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-3 reveal">
+                <div class="dashboard-card">
+                    <i class="fa-solid fa-store dashboard-icon"></i>
+                    <h3 id="restaurants" data-mono>0</h3>
+                    <p>Restaurants</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="1">
+                <div class="dashboard-card">
+                    <i class="fa-solid fa-comments dashboard-icon"></i>
+                    <h3 id="reviews" data-mono>0</h3>
+                    <p>Reviews</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="2">
+                <div class="dashboard-card">
+                    <i class="fa-solid fa-star dashboard-icon"></i>
+                    <h3 id="rating" data-mono>0</h3>
+                    <p>Average Rating</p>
+                </div>
+            </div>
+
+            <div class="col-md-3 reveal" data-reveal-delay="3">
+                <div class="dashboard-card">
+                    <i class="fa-solid fa-thumbs-up dashboard-icon"></i>
+                    <h3 id="positive" data-mono>0</h3>
+                    <p>Positive Reviews</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row g-4 mt-2">
+
+            <div class="col-lg-6 reveal">
+                <div class="card-ai chart-card">
+                    <h3 class="card-title-ai">Sentiment Split</h3>
+                    <div class="chart-wrap">
+                        <canvas id="sentimentChart" aria-label="Positive vs negative review split" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 reveal" data-reveal-delay="1">
+                <div class="card-ai chart-card">
+                    <h3 class="card-title-ai">Top Restaurants by Rating</h3>
+                    <div class="chart-wrap">
+                        <canvas id="topRestaurantsChart" aria-label="Top restaurants ranked by rating" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-ai mt-4 reveal">
+            <h3 class="card-title-ai">Top Restaurants</h3>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Restaurant</th>
+                            <th>Rating</th>
+                            <th>Reviews</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topRestaurantTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="contact" class="section-space contact-section">
+
+    <div class="container">
+
+        <div class="row g-4 align-items-center">
+
+            <div class="col-lg-7 reveal">
+                <span class="eyebrow"><i class="fa-solid fa-paper-plane"></i> Get in touch</span>
+                <h2>Questions, feedback, or a feature idea?</h2>
+                <p class="section-sub">
+                    RestaurantIQ is an evolving project. If something looks off in a prediction or you have an
+                    idea for a new view on the dashboard, reach out directly.
+                </p>
+                <a href="mailto:hello@restaurantiq.app" class="btn btn-primary">
+                    <i class="fa-solid fa-envelope"></i> hello@restaurantiq.app
+                </a>
+            </div>
+
+            <div class="col-lg-5 reveal" data-reveal-delay="1">
+                <div class="card-ai contact-card">
+                    <h5>Follow along</h5>
+                    <div class="social-row">
+                        <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" aria-label="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+                <a class="navbar-brand footer-logo" href="#home">
+                    <span class="brand-mark"><i class="fa-solid fa-utensils"></i></span>
+                    Restaurant<span class="brand-accent">IQ</span>
+                </a>
+                <p>AI-powered restaurant intelligence — sentiment, search, recommendations, and analytics in one place.</p>
+            </div>
+
+            <div class="footer-links">
+                <h6>Explore</h6>
+                <a href="#sentiment">Sentiment</a>
+                <a href="#search">Search</a>
+                <a href="#recommend">Recommend</a>
+                <a href="#analytics">Analytics</a>
+            </div>
+
+            <div class="footer-links">
+                <h6>Project</h6>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> RestaurantIQ. Developed by Kalavanthula Sekhar.</p>
+        </div>
+
+    </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
